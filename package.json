@@ -1,0 +1,19 @@
+{
+  "name": "api-serverless-occurrence",
+  "version": "1.0.0",
+  "description": "Api serverless to save occurrence",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kelvinoenning/api-serverless-occurrence.git"
+  },
+  "author": "Kelvin Oenning",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kelvinoenning/api-serverless-occurrence/issues"
+  },
+  "homepage": "https://github.com/kelvinoenning/api-serverless-occurrence#readme"
+}

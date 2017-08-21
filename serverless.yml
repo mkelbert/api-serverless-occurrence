@@ -1,0 +1,47 @@
+service: aws-nodejs
+provider:
+  name: aws
+  runtime: nodejs6.10
+
+functions:
+  hello:
+    handler: handler/handler.hello
+
+resources:
+  Resources:
+
+    #DYNAMODB
+    DynamoDbTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${file(./config.js):location.tableOccurrence}
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+    DynamoDBIamPolicy:
+      Type: AWS::IAM::Policy
+      DependsOn: DynamoDbTable
+      Properties:
+        PolicyName: lambda-dynamodb
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action:
+                - dynamodb:GetItem
+                - dynamodb:PutItem
+              Resource: arn:aws:dynamodb:*:*:table/${file(./config.js):location.tableOccurrence}
+        Roles:
+          - Ref: IamRoleLambdaExecution
+
+    #S3
+    S3BucketPhotos:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${file(./config.js):location.bucketPhoto}
