@@ -1,3 +1,5 @@
+'use strict'
+
 /*
   DESTINADO PARA ENCONTRAR O NOME CORRETO DO BUCKET DE FOTOS
   - "DEFAULT_ENV_BUCKET_PHOTO" É O NOME DA VARIÁVEL DE AMBIENTE QUE GUARDARÁ
@@ -19,23 +21,27 @@
 
 /* BUCKET DE FOTOS */
 const DEFAULT_ENV_BUCKET_PHOTO = 'BUCKET_PHOTO';
-const DEFAULT_BUCKET_PHOTO = 'kelvintccbucket';
+const DEFAULT_BUCKET_PHOTO = '';
 
 /* TABELA DYNAMODB PARA REGISTRO DE OCORRÊNCIAS*/
 const DEFAULT_ENV_DB_OCCURRENCE = 'DB_OCCURRENCE';
-const DEFAULT_DB_OCCURRENCE = 'kelvintccdynamo';
+const DEFAULT_DB_OCCURRENCE = '';
 
 module.exports.location = () => {
-  return {
-    bucketPhoto: getBucketPhoto(),
-    tableOccurrence: getTableOccurrence()
-  }
+	return {
+		bucketPhoto: getBucketPhoto(),
+		tableOccurrence: getTableOccurrence()
+	}
 }
 
-function getBucketPhoto(){
-  return process.env[DEFAULT_ENV_BUCKET_PHOTO] || DEFAULT_BUCKET_PHOTO;
+function getBucketPhoto() {
+	return process.env[DEFAULT_ENV_BUCKET_PHOTO] || DEFAULT_BUCKET_PHOTO || createBucketName('api-serverless-occurrence-bucket-photo');
 }
 
-function getTableOccurrence(){
-  return process.env[DEFAULT_ENV_DB_OCCURRENCE] || DEFAULT_DB_OCCURRENCE;
+function getTableOccurrence() {
+	return process.env[DEFAULT_ENV_DB_OCCURRENCE] || DEFAULT_DB_OCCURRENCE || ;
+}
+
+function createBucketName(arg) {
+	return arg + '-' + new Date().getTime();
 }
