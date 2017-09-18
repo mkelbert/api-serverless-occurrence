@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/kelvinoenning/api-serverless-occurrence/issues"
   },
-  "homepage": "https://github.com/kelvinoenning/api-serverless-occurrence#readme"
+  "homepage": "https://github.com/kelvinoenning/api-serverless-occurrence#readme",
+  "devDependencies": {
+    "aws-sdk": "^2.117.0"
+  }
 }
