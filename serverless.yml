@@ -11,7 +11,20 @@ resources:
   Resources:
 
     #DYNAMODB
-    DynamoDbTable:
+    UserTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${file(./config.js):location.tableUser}
+        AttributeDefinitions:
+          - AttributeName: email
+            AttributeType: S
+        KeySchema:
+          - AttributeName: email
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+    OcurrenceTable:
       Type: AWS::DynamoDB::Table
       Properties:
         TableName: ${file(./config.js):location.tableOccurrence}
@@ -24,21 +37,6 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
-    DynamoDBIamPolicy:
-      Type: AWS::IAM::Policy
-      DependsOn: DynamoDbTable
-      Properties:
-        PolicyName: lambda-dynamodb
-        PolicyDocument:
-          Version: '2012-10-17'
-          Statement:
-            - Effect: Allow
-              Action:
-                - dynamodb:GetItem
-                - dynamodb:PutItem
-              Resource: arn:aws:dynamodb:*:*:table/${file(./config.js):location.tableOccurrence}
-        Roles:
-          - Ref: IamRoleLambdaExecution
 
     #S3
     S3BucketPhotos:
