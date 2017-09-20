@@ -5,21 +5,18 @@ const AWS = require('aws-sdk')
 const crypto = require('crypto');
 const DB = new AWS.DynamoDB.DocumentClient({apiVersion: '2012-08-10', region: 'us-east-1'});
 
-module.exports.new = (event, context, callback) => {
-  userIsNotExists('kelvinstang@hotmail.com')
-  .then(res => create('kelvinstang@hotmail.com', 'Kelvin Oenning', '100110'))
-  .then(() => resp(200, {}, callback))
-  .catch(err => resp(500, err, callback))
-};
+// module.exports.new = (event, context, callback) => {
+//   userIsNotExists('kelvinstang@hotmail.com')
+//   .then(res => create('kelvinstang@hotmail.com', 'Kelvin Oenning', '100110'))
+//   .then(() => resp(200, {}, callback))
+//   .catch(err => resp(500, err, callback))
+// };
 
-module.exports.login = (event, contex, callback) => {
-
+module.exports.login = (event, context, callback) => {
+  console.log(context);
+  if(context.DB.put) console.log(context.DB.put())
+  resp(200, {}, callback);
 }
-
-
-
-
-
 
 
 
@@ -31,6 +28,7 @@ function resp(statusCode, obj, callback){
   })
 }
 
+/*
 function userIsNotExists(email){
   return new Promise((resolve, reject) => {
     getUser(email)
@@ -40,10 +38,6 @@ function userIsNotExists(email){
     })
   }) 
 }
-
-/**
- * FUNÇÕES TEMPORÁRIAS PARA INTERAÇÃO COM A BASE DE DADOS
- */
 
 function getUser(email){
   return DB.query({
@@ -64,4 +58,4 @@ function create(email, name, password){
       password: crypto.createHash('md5').update(password).digest("hex")
     }
   }).promise()
-}
+}*/

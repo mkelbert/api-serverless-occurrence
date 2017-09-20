@@ -3,8 +3,8 @@
 const crypto = require('crypto');
 
 module.exports = class User{
-    constructor(dao, email, name, password){
-        if(!dao) throw new Error('O dao do usuário não foi adicionado ao objeto!');
+    constructor(aws, email, name, password){
+        if(!aws) throw new Error('#ERRO_AWS_NOTFOUND');
         this.email = email;
         this.name = name;
         this.password = password;
