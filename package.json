@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/kelvinoenning/api-serverless-occurrence#readme",
   "devDependencies": {
-    "aws-sdk": "^2.117.0"
+    "aws-sdk": "^2.117.0",
+    "chai": "^4.1.2",
+    "mocha": "^3.5.3"
   }
 }
