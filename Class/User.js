@@ -1,7 +1,4 @@
 'use strict'
-
-const crypto = require('crypto');
-
 module.exports = class User{
     constructor(aws, email, name, password){
         if(!aws) throw new Error('#ERRO_AWS_NOTFOUND');
