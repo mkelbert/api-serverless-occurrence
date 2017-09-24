@@ -78,3 +78,6 @@ resources:
       Type: AWS::S3::Bucket
       Properties:
         BucketName: ${file(./config.js):location.bucketPhoto}
+
+plugins:
+  - serverless-offline
