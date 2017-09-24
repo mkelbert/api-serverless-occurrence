@@ -1,59 +1,13 @@
 'use strict';
 
-const config = require('../config.js');
-const AWS = require('aws-sdk')
-const crypto = require('crypto');
-const DB = new AWS.DynamoDB.DocumentClient({apiVersion: '2012-08-10', region: 'us-east-1'});
-
 module.exports.new = (event, context, callback) => {
-  console.log(context);
-  if(context.DB.put) console.log(context.DB.put())
-  resp(200, {}, callback);
+  const response = {
+    statusCode: 200,
+    headers: {
+      "x-custom-header": "My Header Value"
+    },
+    body: JSON.stringify({ "message": "Hello World!" })
+  };
+
+  callback(null, response);
 }
-
-function resp(statusCode, obj, callback){
-  callback(null, {
-    statusCode,
-    res: obj
-  })
-}
-
-
-// module.exports.new = (event, context, callback) => {
-//   userIsNotExists('kelvinstang@hotmail.com')
-//   .then(res => create('kelvinstang@hotmail.com', 'Kelvin Oenning', '100110'))
-//   .then(() => resp(200, {}, callback))
-//   .catch(err => resp(500, err, callback))
-// };
-
-/*
-function userIsNotExists(email){
-  return new Promise((resolve, reject) => {
-    getUser(email)
-    .then(res => {
-      if(res.Items.length > 0) return reject('#USER_EXISTS');
-      return resolve();
-    })
-  }) 
-}
-
-function getUser(email){
-  return DB.query({
-    TableName: config.location().tableUser,
-    KeyConditionExpression: 'email = :email',
-    ExpressionAttributeValues: {
-      ':email': email
-    }
-  }).promise()
-}
-
-function create(email, name, password){
-  DB.put({
-    TableName: config.location().tableUser,
-    Item: {
-      email,
-      name,
-      password: crypto.createHash('md5').update(password).digest("hex")
-    }
-  }).promise()
-}*/
