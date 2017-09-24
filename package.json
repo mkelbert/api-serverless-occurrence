@@ -4,7 +4,7 @@
   "description": "Api serverless to save occurrence",
   "main": "index.js",
   "scripts": {
-    "build": "babel --watch src -d dist/",
+    "build": "babel src -d dist/",
     "deploy": "sls deploy",
 
     "test": "./node_modules/.bin/mocha tests/**/*.spec.js --require babel-register",
