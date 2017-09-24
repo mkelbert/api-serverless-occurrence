@@ -8,3 +8,4 @@ dist/
 # Others
 test.js
 package-lock.json
+.DS_Store
