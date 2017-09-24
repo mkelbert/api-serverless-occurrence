@@ -1,6 +1,9 @@
 # package directories
 node_modules/
+dist/
 
 # Serverless directories
 .serverless
+
+# Others
 test.js
