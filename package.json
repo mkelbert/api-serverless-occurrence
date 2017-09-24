@@ -6,7 +6,9 @@
   "scripts": {
     "build": "babel src -d dist/",
     "build:dev": "babel --watch src -d dist/",
+
     "deploy": "npm run build && sls deploy",
+
     "test": "./node_modules/.bin/mocha tests/**/*.spec.js --require babel-register",
     "test:tdd": "./node_modules/.bin/mocha tests/**/*.spec.js --require babel-register --watch"
   },
@@ -36,6 +38,7 @@
     "husky": "^0.11.9",
     "mocha": "^3.2.0",
     "nyc": "^10.2.0",
-    "rimraf": "^2.6.1"
+    "rimraf": "^2.6.1",
+    "serverless": "^1.23.0"
   }
 }
