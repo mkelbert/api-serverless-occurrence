@@ -34,7 +34,7 @@ package:
 
 functions:
   user:
-    handler: /dist/user.new
+    handler: dist/handler/user.new
     events:
       - http:
           path: /user/new
