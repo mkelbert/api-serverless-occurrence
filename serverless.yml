@@ -12,6 +12,7 @@ package:
     - LICENSE
     - README.md
     - serverless.yml
+    - .babelrc
     # - node_modules/aws-sdk/**
     # - node_modules/base64-js/**
     # - node_modules/buffer/**
