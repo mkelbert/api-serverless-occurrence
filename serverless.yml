@@ -13,6 +13,8 @@ package:
     - README.md
     - serverless.yml
     - .babelrc
+    - serverless_old.yml
+    - package-lock.json
     # - node_modules/aws-sdk/**
     # - node_modules/base64-js/**
     # - node_modules/buffer/**
@@ -42,42 +44,40 @@ functions:
           integration: lambda
           cors: true
 
-resources:
-  Resources:
+# resources:
+#   Resources:
 
-    #DYNAMODB
-    UserTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        TableName: ${file(./config.js):location.tableUser}
-        AttributeDefinitions:
-          - AttributeName: email
-            AttributeType: S
-        KeySchema:
-          - AttributeName: email
-            KeyType: HASH
-        ProvisionedThroughput:
-          ReadCapacityUnits: 1
-          WriteCapacityUnits: 1
-    OcurrenceTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        TableName: ${file(./config.js):location.tableOccurrence}
-        AttributeDefinitions:
-          - AttributeName: id
-            AttributeType: S
-        KeySchema:
-          - AttributeName: id
-            KeyType: HASH
-        ProvisionedThroughput:
-          ReadCapacityUnits: 1
-          WriteCapacityUnits: 1
+#     UserTable:
+#       Type: AWS::DynamoDB::Table
+#       Properties:
+#         TableName: ${file(./config.js):location.tableUser}
+#         AttributeDefinitions:
+#           - AttributeName: email
+#             AttributeType: S
+#         KeySchema:
+#           - AttributeName: email
+#             KeyType: HASH
+#         ProvisionedThroughput:
+#           ReadCapacityUnits: 1
+#           WriteCapacityUnits: 1
+#     OcurrenceTable:
+#       Type: AWS::DynamoDB::Table
+#       Properties:
+#         TableName: ${file(./config.js):location.tableOccurrence}
+#         AttributeDefinitions:
+#           - AttributeName: id
+#             AttributeType: S
+#         KeySchema:
+#           - AttributeName: id
+#             KeyType: HASH
+#         ProvisionedThroughput:
+#           ReadCapacityUnits: 1
+#           WriteCapacityUnits: 1
 
-    #S3
-    S3BucketPhotos:
-      Type: AWS::S3::Bucket
-      Properties:
-        BucketName: ${file(./config.js):location.bucketPhoto}
+#     S3BucketPhotos:
+#       Type: AWS::S3::Bucket
+#       Properties:
+#         BucketName: ${file(./config.js):location.bucketPhoto}
 
 plugins:
   - serverless-offline
