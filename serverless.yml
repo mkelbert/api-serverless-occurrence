@@ -15,34 +15,15 @@ package:
     - .babelrc
     - serverless_old.yml
     - package-lock.json
-    # - node_modules/aws-sdk/**
-    # - node_modules/base64-js/**
-    # - node_modules/buffer/**
-    # - node_modules/crypto-browserify/**
-    # - node_modules/events/**
-    # - node_modules/ieee754/**
-    # - node_modules/isarray/**
-    # - node_modules/jmespath/**
-    # - node_modules/lodash/**
-    # - node_modules/punycode/**
-    # - node_modules/querystring/**
-    # - node_modules/sax/**
-    # - node_modules/url/**
-    # - node_modules/uuid/**
-    # - node_modules/xml2js/**
-    # - node_modules/xmlbuilder/**
-    # - node_modules/**
 
-
-functions:
-  user:
-    handler: dist/handler/user.new
-    events:
-      - http:
-          path: /user/new
-          method: post
-          integration: lambda
-          cors: true
+# functions:
+#   user:
+#     handler: dist/handler/user.new
+#     events:
+#       - http:
+#           path: /user/new
+#           method: post
+#           cors: true
 
 # resources:
 #   Resources:
