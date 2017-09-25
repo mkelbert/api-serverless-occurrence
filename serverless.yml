@@ -62,4 +62,3 @@ package:
 
 plugins:
   - serverless-offline
-  
