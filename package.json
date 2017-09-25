@@ -11,7 +11,7 @@
     "sls:remove": "sls remove",
     "test": "./node_modules/.bin/mocha tests/**/*.spec.js --require babel-register",
     "test:tdd": "./node_modules/.bin/mocha tests/**/*.spec.js --require babel-register --watch",
-    "lint": "./node_modules/.bin/eslint src/**/*.js tests/**/*.spec.js",
+    "lint": "./node_modules/.bin/eslint src/**/*.js",
     "prepush": "npm run lint"
   },
   "repository": {
