@@ -6,7 +6,7 @@ export default class DB {
   delete() { }
 
   getDB() {
-    if(process.env.IS_OFFLINE) return {put:function(){}};
+    if (process.env.IS_OFFLINE) return { put: function () { } };
     return new AWS.DynamoDB.DocumentClient();
   }
 }
