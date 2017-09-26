@@ -1,6 +1,14 @@
 import crypto from 'crypto';
 
 export default class User {
+  constructor(options) {
+    if (options) {
+      this.name = options.name;
+      this.email = options.email;
+      this.password = options.password;
+    }
+  }
+
   set email(email) {
     this._email = email;
   }
@@ -30,7 +38,7 @@ export default class User {
   }
 
   set password(password) {
-    this._password = crypto.createHash('md5').update(password).digest('hex');
+    this._password = crypto.createHash('md5').update(String(password)).digest('hex');
   }
   get password() {
     return this._password;
