@@ -15,6 +15,8 @@ describe('User', () => {
     it('should exists property created', () => expect(new User()).to.have.property('created'));
 
     it('should exists property password', () => expect(new User()).to.have.property('password'));
+
+    it('should exists function login', () => expect(new User().login).to.be.a('function'));
   });
 
   describe('Property password', () => {

@@ -43,4 +43,9 @@ export default class User {
   get password() {
     return this._password;
   }
+
+
+  login(){
+
+  }
 }
