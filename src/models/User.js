@@ -46,6 +46,7 @@ export default class User {
 
 
   login(){
-
+    return false;
   }
+  isValidToken(){}
 }
