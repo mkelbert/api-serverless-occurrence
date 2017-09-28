@@ -61,5 +61,5 @@ package:
 #         BucketName: ${file(./config.js):location.bucketPhoto}
 
 plugins:
-  - serverless-offline
   - serverless-dynamodb-local
+  - serverless-offline
