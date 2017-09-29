@@ -21,28 +21,8 @@ describe('User', () => {
     });
 
     describe('Functions', () => {
-      it('should exists function login', () => expect(new User().login).to.be.a('function'));
+      it('should exists function save', () => expect(new User().save).to.be.a('function'));
 
-      it('should exists function isValidToken', () => expect(new User().isValidToken).to.be.a('function'));
-
-    });
-  });
-
-  describe('Properties', () => {
-    describe('password', () => {
-      it('should return the correct data from set value (MD5)', () => {
-        const user = new User();
-        user.password = '12345';
-        expect(user.password).to.be.eq('827ccb0eea8a706c4c34a16891f84e7b')
-      })
-    });
-  });
-
-  describe('Functions', () => {
-    describe('login', () => {
-      it('should return boolean value', () => {
-        expect(new User().login()).to.be.a('boolean');
-      })
     });
   });
 
@@ -66,6 +46,22 @@ describe('User', () => {
         password: '12345'
       });
       expect(user.password).to.be.equal('827ccb0eea8a706c4c34a16891f84e7b')
+    })
+  })
+
+  describe('Properties', () => {
+    describe('password', () => {
+      it('should return the correct data from set value (MD5)', () => {
+        const user = new User();
+        user.password = '12345';
+        expect(user.password).to.be.eq('827ccb0eea8a706c4c34a16891f84e7b')
+      })
+    });
+  });
+
+  describe('Functions', () => {
+    describe('save', () => {
+
     })
   })
 });

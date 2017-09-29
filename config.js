@@ -1,30 +1,9 @@
 'use strict'
 
-/* BUCKET DE FOTOS */
-const DEFAULT_BUCKET_PHOTO = 'BUCKET_PHOTO';
+const TABLE_USER = 'User'
 
-/* TABELA DYNAMODB PARA REGISTRO DE OCORRÊNCIAS*/
-const DEFAULT_DB_OCCURRENCE = 'DB_OCURRENCE_TESTE1';
-
-/* TABELA DYNAMODB PARA REGISTRO DE USUÁRIOS*/
-const DEFAULT_DB_USER = 'DB_USER_TESTE1';
-
-module.exports.location = () => {
+module.exports.config = () => {
 	return {
-		bucketPhoto: getBucketPhoto(),
-		tableOccurrence: getTableOccurrence(),
-		tableUser: getTableUser()
+		TABLE_USER
 	}
-}
-
-function getBucketPhoto() {
-	return 'api-serverless-ocurrence-teste-01';
-}
-
-function getTableOccurrence() {
-	return DEFAULT_DB_OCCURRENCE;
-}
-
-function getTableUser() {
-	return DEFAULT_DB_USER;
 }

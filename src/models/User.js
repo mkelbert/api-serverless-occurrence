@@ -44,9 +44,7 @@ export default class User {
     return this._password;
   }
 
+  save(){
 
-  login(){
-    return false;
   }
-  isValidToken(){}
 }

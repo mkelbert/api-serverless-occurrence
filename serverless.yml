@@ -2,6 +2,8 @@ service: aws-nodejs
 provider:
   name: aws
   runtime: nodejs6.10
+  environment:
+    TABLE_USER: ${file(./config.js):config.TABLE_USER}
 
 package:
   exclude:
@@ -15,32 +17,33 @@ package:
     - .babelrc
     - serverless_old.yml
     - package-lock.json
+    - npm-debug.log
 
-# functions:
-#   user:
-#     handler: dist/handler/user.new
-#     events:
-#       - http:
-#           path: /user/new
-#           method: post
-#           cors: true
+functions:
+  user:
+    handler: dist/handler/v1/test.fn
+    events:
+      - http:
+          path: /test
+          method: post
+          cors: true
 
-# resources:
-#   Resources:
+resources:
+  Resources:
 
-#     UserTable:
-#       Type: AWS::DynamoDB::Table
-#       Properties:
-#         TableName: ${file(./config.js):location.tableUser}
-#         AttributeDefinitions:
-#           - AttributeName: email
-#             AttributeType: S
-#         KeySchema:
-#           - AttributeName: email
-#             KeyType: HASH
-#         ProvisionedThroughput:
-#           ReadCapacityUnits: 1
-#           WriteCapacityUnits: 1
+    UserTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${file(./config.js):config.TABLE_USER}
+        AttributeDefinitions:
+          - AttributeName: email
+            AttributeType: S
+        KeySchema:
+          - AttributeName: email
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
 #     OcurrenceTable:
 #       Type: AWS::DynamoDB::Table
 #       Properties:
@@ -63,3 +66,10 @@ package:
 plugins:
   - serverless-dynamodb-local
   - serverless-offline
+
+custom:
+  dynamodb:
+    start:
+      port: 8000
+      inMemory: true
+      migrate: true
