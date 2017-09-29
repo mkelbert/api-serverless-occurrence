@@ -1,11 +1,11 @@
 import AWS from 'aws-sdk';
 
 export default class DB {
-  get() { }
-  put() { }
-  query() { }
-  scan() { }
-  delete() { }
+  get(arg) { }
+  put(arg) { }
+  query(arg) { }
+  scan(arg) { }
+  delete(arg) { }
 
   getDB() {
     return new AWS.DynamoDB.DocumentClient(this.getConfigDB());
