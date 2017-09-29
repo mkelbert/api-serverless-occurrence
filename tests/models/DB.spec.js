@@ -68,10 +68,10 @@ describe('DB', () => {
         expect(new DB().getConfigDB()).to.have.property('region')
       })
 
-      // it('should return data value must contain endpoint property on Developer Stage', () => {
-      //   global.process.env.IS_OFFLINE = true;
-      //   expect(new DB().getConfigDB()).to.have.property('endpoint')
-      // })
+      it('should return data value must contain endpoint property on Developer Stage', () => {
+        global.process.env.IS_OFFLINE = true;
+        expect(new DB().getConfigDB()).to.have.property('endpoint')
+      })
 
     })
   });
