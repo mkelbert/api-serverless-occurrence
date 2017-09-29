@@ -10,3 +10,4 @@ test.js
 package-lock.json
 .DS_Store
 npm-debug.log
+npm-debug.log.*
