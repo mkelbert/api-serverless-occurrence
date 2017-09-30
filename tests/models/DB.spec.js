@@ -19,7 +19,7 @@ describe('DB', () => {
     it('should exists getConfigDB function', () => expect(new DB().getConfigDB).to.be.a('function'))
   });
 
-  describe('functions', () => {
+  describe('Functions', () => {
     describe('getDB', () => {
 
       it('should returned object must contain get function', () => {
@@ -40,7 +40,6 @@ describe('DB', () => {
 
       describe('Instance (PRODUCTION)', () => {
         it('should returned object must contain production config ', () => {
-          delete global.process.env.IS_OFFLINE;
           expect(new DB().getDB().service.endpoint.href).to.not.equal('http://localhost:3000/');
         })
       })
@@ -55,13 +54,22 @@ describe('DB', () => {
     });
 
     describe('getConfigDB', () => {
-      it('should return data value must contain region property', () => {
+      it('should returned data value must contain region property on DEVELOPER stage', () => {
         expect(new DB().getConfigDB()).to.have.property('region')
       })
 
-      it('should return data value must contain endpoint property on Developer Stage', () => {
+      it('should returned data value must contain region property on PRODUCTION stage', () => {
+        global.process.env.IS_OFFLINE = true;
+        expect(new DB().getConfigDB()).to.have.property('region')
+      })
+
+      it('should returned data value must contain endpoint property on DEVELOPER stage', () => {
         global.process.env.IS_OFFLINE = true;
         expect(new DB().getConfigDB()).to.have.property('endpoint')
+      })
+
+      it('should returned data value must not contain endpoint property on PRODUCTION stage', () => {
+        expect(new DB().getConfigDB()).to.not.have.property('endpoint')
       })
 
     })
