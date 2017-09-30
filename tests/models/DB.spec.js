@@ -9,8 +9,6 @@ describe('DB', () => {
   })
 
   describe('Smoke test', () => {
-    it('should exists DB class', () => expect(new DB()).to.be.a('object'));
-
     it('should exists get function', () => expect(new DB().get).to.be.a('function'));
     it('should exists put function', () => expect(new DB().put).to.be.a('function'));
     it('should exists query function', () => expect(new DB().query).to.be.a('function'));
@@ -23,9 +21,6 @@ describe('DB', () => {
 
   describe('functions', () => {
     describe('getDB', () => {
-      it('should return data value equals object', () => {
-        expect(new DB().getDB()).to.be.a('object');
-      })
 
       it('should returned object must contain get function', () => {
         expect(new DB().getDB().get).to.be.a('function');
@@ -60,10 +55,6 @@ describe('DB', () => {
     });
 
     describe('getConfigDB', () => {
-      it('should return data value equals object', () => {
-        expect(new DB().getConfigDB()).to.be.a('object');
-      })
-
       it('should return data value must contain region property', () => {
         expect(new DB().getConfigDB()).to.have.property('region')
       })

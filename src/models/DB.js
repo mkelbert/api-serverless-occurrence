@@ -1,7 +1,7 @@
 import AWS from 'aws-sdk';
 
 export default class DB {
-  get(arg) { }
+  get(arg) {}
   put(arg) { }
   query(arg) { }
   scan(arg) { }
