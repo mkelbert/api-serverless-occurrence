@@ -1,7 +1,7 @@
 import AWS from 'aws-sdk';
 
 export default class DB {
-  static getDB(config = this.getConfigDB()) {
+  static get(config = this.getConfigDB()) {
     return new AWS.DynamoDB.DocumentClient(config);
   }
 

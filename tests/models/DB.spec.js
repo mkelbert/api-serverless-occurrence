@@ -1,11 +1,4 @@
-import chai, { expect } from 'chai';
-import sinon from 'sinon';
-import sinonChai from 'sinon-chai';
-import sinonStubPromise from 'sinon-stub-promise';
-
-sinonStubPromise(sinon);
-chai.use(sinonChai);
-
+import { expect } from 'chai';
 import DB from '../../src/models/DB';
 
 describe('DB', () => {
@@ -14,33 +7,33 @@ describe('DB', () => {
   })
 
   describe('Smoke test', () => {
-    it('should exists static (getDB, getConfigDB) functions', () => {
-      expect(DB.getDB).to.be.a('function');
+    it('should exists static (get, getConfigDB) functions', () => {
+      expect(DB.get).to.be.a('function');
       expect(DB.getConfigDB).to.be.a('function');
     });
   });
 
   describe('Functions', () => {
-    describe('getDB', () => {
+    describe('get', () => {
 
       it('should return object must contain (get,put,query,scan,delete) func.', () => {
-        expect(DB.getDB().get).to.be.a('function');
-        expect(DB.getDB().put).to.be.a('function');
-        expect(DB.getDB().query).to.be.a('function');
-        expect(DB.getDB().scan).to.be.a('function');
-        expect(DB.getDB().delete).to.be.a('function');
+        expect(DB.get().get).to.be.a('function');
+        expect(DB.get().put).to.be.a('function');
+        expect(DB.get().query).to.be.a('function');
+        expect(DB.get().scan).to.be.a('function');
+        expect(DB.get().delete).to.be.a('function');
       });
 
       describe('Instance (PRODUCTION)', () => {
         it('should returned object must contain production config ', () => {
-          expect(DB.getDB().service.endpoint.href).to.not.equal('http://localhost:3000/');
+          expect(DB.get().service.endpoint.href).to.not.equal('http://localhost:3000/');
         })
       })
 
       describe('Instance (DEVELOPER)', () => {
         it('should returned object must contain developer config ', () => {
           global.process.env.IS_OFFLINE = true;
-          expect(DB.getDB().service.endpoint.href).to.equal('http://localhost:3000/');
+          expect(DB.get().service.endpoint.href).to.equal('http://localhost:3000/');
         })
       })
 
