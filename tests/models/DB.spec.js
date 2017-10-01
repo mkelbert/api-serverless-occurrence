@@ -103,7 +103,7 @@ describe('DB', () => {
         expect(DB.get().message).to.be.equal('The argument object was not informed!');
       });
 
-      it('should return promiseGet', () => {
+      it('should return promise', () => {
         let promiseResult = { Item: {} }
         promiseGet.resolves(promiseResult);
         expect(DB.get({}).resolveValue).to.be.eql(promiseResult);
@@ -118,8 +118,8 @@ describe('DB', () => {
         expect(DB.put().message).to.be.equal('The argument object was not informed!');
       });
 
-      it('should return promiseGet', () => {
-        let promiseResult = { Item: {} }
+      it('should return promise', () => {
+        let promiseResult = { }
         promisePut.resolves(promiseResult);
         expect(DB.put({}).resolveValue).to.be.eql(promiseResult);
       });
@@ -133,7 +133,7 @@ describe('DB', () => {
         expect(DB.query().message).to.be.equal('The argument object was not informed!');
       });
 
-      it('should return promiseGet', () => {
+      it('should return promise', () => {
         let promiseResult = { Items: {} }
         promiseQuery.resolves(promiseResult);
         expect(DB.query({}).resolveValue).to.be.eql(promiseResult);
@@ -148,7 +148,7 @@ describe('DB', () => {
         expect(DB.scan().message).to.be.equal('The argument object was not informed!');
       });
 
-      it('should return promiseGet', () => {
+      it('should return promise', () => {
         let promiseResult = { Items: {} }
         promiseScan.resolves(promiseResult);
         expect(DB.scan({}).resolveValue).to.be.eql(promiseResult);
@@ -163,8 +163,8 @@ describe('DB', () => {
         expect(DB.delete().message).to.be.equal('The argument object was not informed!');
       });
 
-      it('should return promiseGet', () => {
-        let promiseResult = { Items: {} }
+      it('should return promise', () => {
+        let promiseResult = {}
         promiseDelete.resolves(promiseResult);
         expect(DB.delete({}).resolveValue).to.be.eql(promiseResult);
       });
