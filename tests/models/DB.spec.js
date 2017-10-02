@@ -16,12 +16,13 @@ describe('DB', () => {
   describe('Functions', () => {
     describe('get', () => {
 
-      it('should return object must contain (get,put,query,scan,delete) func.', () => {
+      it('should return object must contain (get,put,query,scan,delete, update) func.', () => {
         expect(DB.get().get).to.be.a('function');
         expect(DB.get().put).to.be.a('function');
         expect(DB.get().query).to.be.a('function');
         expect(DB.get().scan).to.be.a('function');
         expect(DB.get().delete).to.be.a('function');
+        expect(DB.get().update).to.be.a('function');
       });
 
       describe('Instance (PRODUCTION)', () => {

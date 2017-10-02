@@ -7,3 +7,6 @@ module.exports.config = () => {
 		TABLE_USER
 	}
 }
+
+
+module.exports.TABLE_USER = 'User';
