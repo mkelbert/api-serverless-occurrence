@@ -10,18 +10,6 @@ import DB from '../../src/models/DB';
 
 describe('User', () => {
 
-  // let stubedDBUpdate;
-  // let promise;
-
-  // beforeEach( () => {
-  //   stubedDBUpdate = sinon.stub(DB.get(), 'update');
-  //   promise = stubedDBUpdate.returnsPromise();
-  // });
-
-  // afterEach( () => {
-  //   stubedDBUpdate.restore();
-  // });
-
   describe('Smoke test', () => {
 
     describe('properties', () => {
@@ -78,23 +66,24 @@ describe('User', () => {
     describe('save', () => {
       it('should return promise', () => {
 
-        let dynamo = {
-          update: () => {
-            return {
-              promise: () => {
-                return Promise.resolve({})
-              }
-            }
-          }
-        }
+        const StubA = sinon.spy(function() {
+          return sinon.createStubInstance(DB);
+        });
 
         const user = new User({
           name: 'Test Name',
           email: 'test@email.com.br',
           password: '12345'
-        }, dynamo);
+        },stubedDBUpdate);
 
-        expect(user.save()).to.be.a('promise')
+        // let stubedUserSave = sinon.stub(user, 'save');
+        // let promise = stubedUserSave.returnsPromise();
+        // promise.resolves({ album: 'name'});
+
+        const albums = user.save();
+        expect(albums.resolveValue).to.be.eql({ album: 'name'});
+
+        //expect(user.save()).to.be.a('promise');
       });
 
       // it('should return corrent data value', () => {

@@ -27,7 +27,7 @@ export default class User {
         ':email': this.email,
         ':password': this.password
       }
-    }).promise();
+    }).promise()
   }
 
   /**
