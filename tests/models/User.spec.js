@@ -10,6 +10,14 @@ import DB from '../../src/models/DB';
 
 describe('User', () => {
 
+  const fakeDB = {
+    update: function() {
+      return {
+        promise: () => Promise.resolve({})
+      }
+    }
+  };
+
   describe('Smoke test', () => {
 
     describe('properties', () => {
@@ -29,7 +37,7 @@ describe('User', () => {
 
   describe('Constructor', () => {
     it('should accepts parameter loading by options object', () => {
-      const user = new User({
+      let user = new User({
         name: 'Test Name',
         email: 'test@email.com.br',
         password: '12345'
@@ -65,16 +73,7 @@ describe('User', () => {
   describe('Function', () => {
     describe('save', () => {
       it('should return promise', () => {
-
-        const fakeDB = {
-          update: function() {
-            return {
-              promise: () => Promise.resolve({})
-            }
-          }
-        }
-
-        const user = new User({
+        let user = new User({
           name: 'Test Name',
           email: 'test@email.com.br',
           password: '12345'
@@ -82,17 +81,31 @@ describe('User', () => {
 
         expect(user.save()).to.be.a('promise');
       });
+    });
 
-      // it('should return corrent data value', () => {
-      //   const user = new User({
-      //     name: 'Test Name',
-      //     email: 'test@email.com.br',
-      //     password: '12345'
-      //   });
+    describe('createToken', () => {
+      it('should return new token', () => {
+        let user = new User(null, null);
+        expect(user.createToken()).to.be.a('string');
+      });
+    });
 
-      //   user.save()
-      // })
-    })
+    describe('updateToken', () => {
+      it('should return error', () => {
+        let user = new User({}, fakeDB);
+        expect(user.updateToken()).to.be.a('error');
+      });
+
+      it('should return promise', () => {
+        let user = new User({
+          name: 'Test Name',
+          email: 'test@email.com.br',
+          password: '12345'
+        }, fakeDB);
+
+        expect(user.updateToken()).to.be.a('promise');
+      });
+    });
   });
 
 });

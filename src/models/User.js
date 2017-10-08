@@ -1,6 +1,8 @@
 import crypto from 'crypto';
+import uuid from 'uuid';
+import _ from 'lodash';
 import project from '../project';
-import DB from './DB'
+import DB from './DB';
 
 export default class User {
   constructor(options, dynamo = DB.get()) {
@@ -28,6 +30,25 @@ export default class User {
         ':password': this.password
       }
     }).promise()
+  }
+
+  updateToken(){
+    if(this.email == 'undefined') return new Error('#USER_EMAIL_NOTFOUND')
+
+    return this.dynamo.update({
+      TableName: project.TABLE_USER,
+      Key: {
+        email: this.email
+      },
+      UpdateExpression: 'set token = :token',
+      ExpressionAttributeValues: {
+        ':token' : this.createToken()
+      }
+    }).promise()
+  }
+
+  createToken(){
+    return crypto.createHash('md5').update(String(uuid.v1())).digest('hex');
   }
 
   /**
