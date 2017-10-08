@@ -66,24 +66,21 @@ describe('User', () => {
     describe('save', () => {
       it('should return promise', () => {
 
-        const StubA = sinon.spy(function() {
-          return sinon.createStubInstance(DB);
-        });
+        const fakeDB = {
+          update: function() {
+            return {
+              promise: () => Promise.resolve({})
+            }
+          }
+        }
 
         const user = new User({
           name: 'Test Name',
           email: 'test@email.com.br',
           password: '12345'
-        },stubedDBUpdate);
+        }, fakeDB);
 
-        // let stubedUserSave = sinon.stub(user, 'save');
-        // let promise = stubedUserSave.returnsPromise();
-        // promise.resolves({ album: 'name'});
-
-        const albums = user.save();
-        expect(albums.resolveValue).to.be.eql({ album: 'name'});
-
-        //expect(user.save()).to.be.a('promise');
+        expect(user.save()).to.be.a('promise');
       });
 
       // it('should return corrent data value', () => {
