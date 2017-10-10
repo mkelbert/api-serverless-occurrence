@@ -3,7 +3,7 @@ provider:
   name: aws
   runtime: nodejs6.10
   environment:
-    TABLE_USER: ${file(./config.js):config.TABLE_USER}
+    TABLE_USER: ${file(./src/project.js):config.TABLE_USER}
 
 package:
   exclude:
@@ -20,12 +20,13 @@ package:
     - npm-debug.log
 
 functions:
-  user:
-    handler: dist/handler/v1/test.fn
+  userNew:
+    handler: dist/handler/v1/user.new
     events:
       - http:
-          path: /test
+          path: /user
           method: post
+          integration: aws_proxy
           cors: true
 
 resources:
@@ -34,7 +35,7 @@ resources:
     UserTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${file(./config.js):config.TABLE_USER}
+        TableName: ${file(./src/project.js):config.TABLE_USER}
         AttributeDefinitions:
           - AttributeName: email
             AttributeType: S

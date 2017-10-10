@@ -13,4 +13,10 @@ describe('Handler V1 User', () => {
       expect(fn.new).to.be.a('function');
     });
   })
+
+  // describe('checkArgsToNew', () => {
+  //   it('should return function', () => {
+  //     expect(fn.)
+  //   })
+  // })
 });
