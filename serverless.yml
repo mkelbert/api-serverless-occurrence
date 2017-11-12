@@ -18,6 +18,7 @@ provider:
 package:
   exclude:
     - src/**
+    - node_modules/**
     - LICENSE
     - README.md
     - serverless.yml
@@ -48,6 +49,33 @@ functions:
           integration: aws_proxy
           cors: true
 
+  occurrenceRegister:
+    handler: dist/handler/v1/occurrence.register
+    events:
+      - http:
+          path: /v1/occurrence/register
+          method: post
+          integration: aws_proxy
+          cors: true
+
+  occurrenceDelete:
+    handler: dist/handler/v1/occurrence.delete
+    events:
+      - http:
+          path: /v1/occurrence/delete
+          method: post
+          integration: aws_proxy
+          cors: true
+
+  occurrenceList:
+    handler: dist/handler/v1/occurrence.list
+    events:
+      - http:
+          path: /v1/occurrence/list
+          method: post
+          integration: aws_proxy
+          cors: true
+
 resources:
   Resources:
 
@@ -60,6 +88,19 @@ resources:
             AttributeType: S
         KeySchema:
           - AttributeName: email
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+    OccurrenceTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: 'Occurrence'
+        AttributeDefinitions:
+          - AttributeName: code
+            AttributeType: S
+        KeySchema:
+          - AttributeName: code
             KeyType: HASH
         ProvisionedThroughput:
           ReadCapacityUnits: 1

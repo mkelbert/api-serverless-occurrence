@@ -1,20 +1,19 @@
 import util from '../util/util'
+import uuid from 'uuid'
 
 export default class Ocurrence {
   constructor(options) {
     if (options) {
       this.email = options.email;
-      this.code = option.code;
-      this.latitude = option.latitude;
-      this.longitude = option.longitude;
-      this.description = option.description;
+      this.code = options.code;
+      this.latitude = options.latitude;
+      this.longitude = options.longitude;
+      this.description = options.description;
     }
   }
 
   updateCode() {
-    if(!this.email) return Promise.reject();
-    if(!this.code) code = util.toMd5(this.email + new Date().toJSON());
-    return Promise.resolve();
+    this.code = util.toMd5(uuid.v4().toString() + new Date().toJSON());
   }
 
   /**

@@ -1,5 +1,4 @@
 import DB from '../models/DB'
-import util from '../util/util'
 
 export default {
   register(occurrence){
@@ -27,4 +26,82 @@ export default {
       });
     });
   },
+
+  delete(occurrence) {
+    return new Promise((resolve, reject) => {
+      if(!occurrence.code) return reject(new Error('#ERROR_OCCURRENCEDAO_DELETE_CODE_NOTFOUND'));
+
+      let params = {
+        TableName: 'Occurrence',
+        Key: {
+          code: occurrence.code
+        }
+      }
+
+      DB.start().delete(params, (err, data) => {
+        if(err) {
+          console.log(err)
+          return reject(new Error('#ERROR_OCCURRENCEDAO_DELETE'))
+        };
+        return resolve();
+      });
+    });
+  },
+
+  findByCode(occurrence) {
+    return new Promise((resolve, reject) => {
+      if(!occurrence.code) return reject(new Error('#ERROR_OCCURRENCEDAO_FINDBYCODE_CODE_NOTFOUND'));
+
+      let params = {
+        TableName: 'Occurrence',
+        Key: {
+          code: occurrence.code
+        }
+      }
+
+      DB.start().get(params, (err, data) => {
+        if(err) {
+          console.log(err)
+          return reject(new Error('#ERROR_OCCURRENCEDAO_FINDBYCODE'))
+        };
+        if(data.Item) return resolve(data.Item)
+        return resolve({});
+      });
+    });
+  },
+
+  list(listType) {
+    return new Promise((resolve, reject) => {
+      if(!listType) return reject(new Error('#ERROR_OCCURRENCEDAO_LIST_LISTTYPE_NOTFOUND'));
+
+      let params = {
+        TableName: 'Occurrence'
+      }
+      if(listType != 'all'){
+        params.FilterExpression = 'email = :email'
+        params.ExpressionAttributeValues = {
+          ':email': listType
+        }
+      }
+
+      execScan(params, [], resolve, reject);
+    });
+  }
+}
+
+function execScan(parm, list = [], resolve, reject) {
+	DB.start().scan(parm, (err, res) => {
+		if (err) return reject(`#ERRO_QUERY_${parm.TableName}`);
+
+		res.Items.forEach(i => {
+			list.push(i);
+		});
+
+		if (res.LastEvaluatedKey) {
+			parm.ExclusiveStartKey = res.LastEvaluatedKey;
+			return execScan(parm, list, resolve, reject);
+		} else {
+			return resolve(list);
+		}
+	});
 }

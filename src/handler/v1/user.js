@@ -14,11 +14,11 @@ module.exports.register = (event, context, callback) => {
   })
 
   userDao.findByEmail(user)
-  .then(findUser => {
+  .then(findUser => new Promise((resolve, reject) => {
     if(findUser.email) return util.sendLambdaResponse(200, undefined, callback);
     user.updateAuthenticator();
-    Promise.resolve();
-  })
+    resolve();
+  }))
   .then(() => userDao.register(user))
   .then(() => {
     return util.sendLambdaResponse(201, {
@@ -42,11 +42,11 @@ module.exports.authenticate = (event, context, callback) => {
   })
 
   userDao.findByAuthenticate(user)
-  .then(findUser => {
+  .then(findUser => new PRomise((resolve, reject) => {
     if(!findUser.email) return util.sendLambdaResponse(401, undefined, callback)
     user.updateAuthenticator();
-    Promise.resolve();
-  })
+    resolve();
+  }))
   .then(() => userDao.updateAuthenticator(user))
   .then(() => util.sendLambdaResponse(200, {
     authenticator: user.authenticator
