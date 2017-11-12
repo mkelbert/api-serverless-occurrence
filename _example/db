@@ -1,7 +1,0 @@
-// return this.getDB().put({
-  //   TableName: 'User',
-  //   Item: {
-  //     email: 'kelvin@adapcon.com.br',
-  //     nome: 'Kelvin Oenning'
-  //   }
-  // }).promise()

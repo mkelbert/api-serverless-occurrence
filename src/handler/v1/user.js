@@ -1,51 +1,58 @@
-import DB from '../../models/DB';
-import project from '../../project';
+import User from '../../models/User';
+import userDao from '../../dao/userDao';
+import util from '../../util/util';
 
-module.exports.new = (event, context, callback) => {
-  let parmQuery = {
-    TableName: project.config().TABLE_USER,
-    KeyConditionExpression: 'email = :email',
-    ExpressionAttributeValues: {
-      ':email': 'kelvinstang@hotmail.com'
-    }
-  }
 
-  toJson(event.body)
-  .then(body => {
-    event.body = body;
+module.exports.register = (event, context, callback) => {
+  let args = util.prepareBody(event.body);
+
+  if(!args.email || !args.password || !util.isEmail(args.email) || args.password.length < 5) return util.sendLambdaResponse(400, undefined, callback);
+
+  let user = new User({
+    email: args.email,
+    password: args.password
+  })
+
+  userDao.findByEmail(user)
+  .then(findUser => {
+    if(findUser.email) return util.sendLambdaResponse(200, undefined, callback);
+    user.updateAuthenticator();
     Promise.resolve();
   })
-  .then(() => DB.get().query(parmQuery).promise())
-  .then(res => checkUserExist(res))
-  .then(() => end(200, event, callback))
+  .then(() => userDao.register(user))
+  .then(() => {
+    return util.sendLambdaResponse(201, {
+      authenticator: user.authenticator
+    }, callback)
+  })
   .catch(err => {
-    end(500, err, callback)
-  });
+    console.log(err)
+    return util.sendLambdaResponse(500, undefined, callback);
+  })
 }
 
-function toJson(arg){
-  try{
-    return Promise.resolve(JSON.parse(arg));
-  }catch(err){
-    return Promise.resolve(arg);
-  }
-}
+module.exports.authenticate = (event, context, callback) => {
+  let args = util.prepareBody(event.body);
 
-function checkUserExist(res){
-  if(!res.Items) return Promise.reject('#ERROR_NEW_USER');
-  if(res.Items && res.Items.length == 0 )
-    return Promise.resolve();
-  else
-    return Promise.reject('#USER_ALREADY_REGISTERED');
-}
+  if(!args.email || !args.password || !util.isEmail(args.email) || args.password.length < 5) return util.sendLambdaResponse(400, undefined, callback);
 
-function end(statusCode, obj, callback){
-  callback(null, {
-    statusCode,
-    headers: {
-      "Access-Control-Allow-Origin" : "*",
-      "Access-Control-Allow-Credentials" : true
-    },
-    body: JSON.stringify(obj)
+  let user = new User({
+    email: args.email,
+    password: util.toMd5(args.password)
+  })
+
+  userDao.findByAuthenticate(user)
+  .then(findUser => {
+    if(!findUser.email) return util.sendLambdaResponse(401, undefined, callback)
+    user.updateAuthenticator();
+    Promise.resolve();
+  })
+  .then(() => userDao.updateAuthenticator(user))
+  .then(() => util.sendLambdaResponse(200, {
+    authenticator: user.authenticator
+  }, callback))
+  .catch(err => {
+    console.log(err)
+    return util.sendLambdaResponse(500, undefined, callback);
   })
 }

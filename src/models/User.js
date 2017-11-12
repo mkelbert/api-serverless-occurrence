@@ -1,54 +1,17 @@
-import crypto from 'crypto';
-import uuid from 'uuid';
-import _ from 'lodash';
-import project from '../project';
-import DB from './DB';
+import util from '../util/util'
+import uuid from 'uuid'
 
 export default class User {
-  constructor(options, dynamo = DB.get()) {
+  constructor(options) {
     if (options) {
-      this.name = options.name;
       this.email = options.email;
       this.password = options.password;
+      this.authenticator = options.authenticator;
     }
-    this.dynamo = dynamo;
   }
 
-  /**
-   * FUNCTIONS
-   */
-  save(){
-    return this.dynamo.update({
-      TableName: project.TABLE_USER,
-      Key: {
-        email: this.email
-      },
-      UpdateExpression: 'set nick = :name, email = :email, password = :password',
-      ExpressionAttributeValues: {
-        ':name' : this.name,
-        ':email': this.email,
-        ':password': this.password
-      }
-    }).promise()
-  }
-
-  updateToken(){
-    if(this.email == 'undefined') return new Error('#USER_EMAIL_NOTFOUND')
-
-    return this.dynamo.update({
-      TableName: project.TABLE_USER,
-      Key: {
-        email: this.email
-      },
-      UpdateExpression: 'set token = :token',
-      ExpressionAttributeValues: {
-        ':token' : this.createToken()
-      }
-    }).promise()
-  }
-
-  createToken(){
-    return crypto.createHash('md5').update(String(uuid.v1())).digest('hex');
+  updateAuthenticator() {
+    this.authenticator = util.toMd5(uuid.v4().toString() + new Date().toJSON());
   }
 
   /**
@@ -61,22 +24,15 @@ export default class User {
     return this._email;
   }
 
-  set token(token) {
-    this._token = String(token);
+  set authenticator(authenticator) {
+    this._authenticator = String(authenticator);
   }
-  get token() {
-    return this._token;
-  }
-
-  set name(name) {
-    this._name = String(name);
-  }
-  get name() {
-    return this._name;
+  get authenticator() {
+    return this._authenticator;
   }
 
   set password(password) {
-    this._password = crypto.createHash('md5').update(String(password)).digest('hex');
+    this._password = String(password)
   }
   get password() {
     return this._password;

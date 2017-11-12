@@ -2,29 +2,48 @@ service: aws-nodejs
 provider:
   name: aws
   runtime: nodejs6.10
-  environment:
-    TABLE_USER: ${file(./src/project.js):config.TABLE_USER}
+  region: sa-east-1
+  iamRoleStatements: # permissions for all of your functions can be set here
+    - Effect: Allow
+      Action: # Gives permission to DynamoDB tables in a specific region
+        - dynamodb:DescribeTable
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "arn:aws:dynamodb:sa-east-1:*:*"
 
 package:
   exclude:
-    - node_modules/**
-    - tests/**
-    - _example/**
     - src/**
     - LICENSE
     - README.md
     - serverless.yml
     - .babelrc
+    - .editorconfig
+    - .eslintrc.json
+    - .gitignore
     - serverless_old.yml
     - package-lock.json
     - npm-debug.log
 
 functions:
   userNew:
-    handler: dist/handler/v1/user.new
+    handler: dist/handler/v1/user.register
     events:
       - http:
-          path: /user
+          path: /v1/user/register
+          method: post
+          integration: aws_proxy
+          cors: true
+
+  userAuthenticate:
+    handler: dist/handler/v1/user.authenticate
+    events:
+      - http:
+          path: /v1/user/authenticate
           method: post
           integration: aws_proxy
           cors: true
@@ -35,7 +54,7 @@ resources:
     UserTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${file(./src/project.js):config.TABLE_USER}
+        TableName: 'User'
         AttributeDefinitions:
           - AttributeName: email
             AttributeType: S
@@ -64,13 +83,13 @@ resources:
 #       Properties:
 #         BucketName: ${file(./config.js):location.bucketPhoto}
 
-plugins:
-  - serverless-dynamodb-local
-  - serverless-offline
+# plugins:
+#   - serverless-dynamodb-local
+#   - serverless-offline
 
-custom:
-  dynamodb:
-    start:
-      port: 8000
-      inMemory: true
-      migrate: true
+# custom:
+#   dynamodb:
+#     start:
+#       port: 8000
+#       inMemory: true
+#       migrate: true
