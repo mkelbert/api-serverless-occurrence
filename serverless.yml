@@ -3,9 +3,9 @@ provider:
   name: aws
   runtime: nodejs6.10
   region: sa-east-1
-  iamRoleStatements: # permissions for all of your functions can be set here
+  iamRoleStatements:
     - Effect: Allow
-      Action: # Gives permission to DynamoDB tables in a specific region
+      Action:
         - dynamodb:DescribeTable
         - dynamodb:Query
         - dynamodb:Scan
@@ -90,8 +90,8 @@ resources:
           - AttributeName: email
             KeyType: HASH
         ProvisionedThroughput:
-          ReadCapacityUnits: 1
-          WriteCapacityUnits: 1
+          ReadCapacityUnits: 100
+          WriteCapacityUnits: 100
     OccurrenceTable:
       Type: AWS::DynamoDB::Table
       Properties:
@@ -103,34 +103,5 @@ resources:
           - AttributeName: code
             KeyType: HASH
         ProvisionedThroughput:
-          ReadCapacityUnits: 1
-          WriteCapacityUnits: 1
-#     OcurrenceTable:
-#       Type: AWS::DynamoDB::Table
-#       Properties:
-#         TableName: ${file(./config.js):location.tableOccurrence}
-#         AttributeDefinitions:
-#           - AttributeName: id
-#             AttributeType: S
-#         KeySchema:
-#           - AttributeName: id
-#             KeyType: HASH
-#         ProvisionedThroughput:
-#           ReadCapacityUnits: 1
-#           WriteCapacityUnits: 1
-
-#     S3BucketPhotos:
-#       Type: AWS::S3::Bucket
-#       Properties:
-#         BucketName: ${file(./config.js):location.bucketPhoto}
-
-# plugins:
-#   - serverless-dynamodb-local
-#   - serverless-offline
-
-# custom:
-#   dynamodb:
-#     start:
-#       port: 8000
-#       inMemory: true
-#       migrate: true
+          ReadCapacityUnits: 100
+          WriteCapacityUnits: 100

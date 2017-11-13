@@ -6,7 +6,10 @@ import util from '../../util/util';
 module.exports.register = (event, context, callback) => {
   let args = util.prepareBody(event.body);
 
-  if(!args.email || !args.password || !util.isEmail(args.email) || args.password.length < 5) return util.sendLambdaResponse(400, undefined, callback);
+  if(!args.email ||
+    !args.password ||
+    !util.isEmail(args.email) ||
+    args.password.length < 5) return util.sendLambdaResponse(400, undefined, callback);
 
   let user = new User({
     email: args.email,
@@ -34,7 +37,10 @@ module.exports.register = (event, context, callback) => {
 module.exports.authenticate = (event, context, callback) => {
   let args = util.prepareBody(event.body);
 
-  if(!args.email || !args.password || !util.isEmail(args.email) || args.password.length < 5) return util.sendLambdaResponse(400, undefined, callback);
+  if(!args.email ||
+    !args.password ||
+    !util.isEmail(args.email) ||
+    args.password.length < 5) return util.sendLambdaResponse(400, undefined, callback);
 
   let user = new User({
     email: args.email,
