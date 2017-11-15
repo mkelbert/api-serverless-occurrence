@@ -1,15 +1,17 @@
 import User from '../../models/User';
 import userDao from '../../dao/userDao';
 import util from '../../util/util';
+import _ from 'lodash';
 
 
 module.exports.register = (event, context, callback) => {
+  let startDuration = new Date();
   let args = util.prepareBody(event.body);
 
-  if(!args.email ||
+  if(args == null || !args.email ||
     !args.password ||
     !util.isEmail(args.email) ||
-    args.password.length < 5) return util.sendLambdaResponse(400, undefined, callback);
+    args.password.length < 5) return util.sendLambdaResponse(400, undefined, callback, startDuration);
 
   let user = new User({
     email: args.email,
@@ -18,7 +20,7 @@ module.exports.register = (event, context, callback) => {
 
   userDao.findByEmail(user)
   .then(findUser => new Promise((resolve, reject) => {
-    if(findUser.email) return util.sendLambdaResponse(200, undefined, callback);
+    if(_.get(findUser, 'email')) return util.sendLambdaResponse(200, undefined, callback, startDuration);
     user.updateAuthenticator();
     resolve();
   }))
@@ -26,21 +28,22 @@ module.exports.register = (event, context, callback) => {
   .then(() => {
     return util.sendLambdaResponse(201, {
       authenticator: user.authenticator
-    }, callback)
+    }, callback, startDuration)
   })
   .catch(err => {
     console.log(err)
-    return util.sendLambdaResponse(500, undefined, callback);
+    return util.sendLambdaResponse(500, undefined, callback, startDuration);
   })
 }
 
 module.exports.authenticate = (event, context, callback) => {
+  let startDuration = new Date();
   let args = util.prepareBody(event.body);
 
-  if(!args.email ||
+  if(args == null || !args.email ||
     !args.password ||
     !util.isEmail(args.email) ||
-    args.password.length < 5) return util.sendLambdaResponse(400, undefined, callback);
+    args.password.length < 5) return util.sendLambdaResponse(400, undefined, callback, startDuration);
 
   let user = new User({
     email: args.email,
@@ -48,17 +51,17 @@ module.exports.authenticate = (event, context, callback) => {
   })
 
   userDao.findByAuthenticate(user)
-  .then(findUser => new PRomise((resolve, reject) => {
-    if(!findUser.email) return util.sendLambdaResponse(401, undefined, callback)
+  .then(findUser => new Promise((resolve, reject) => {
+    if(!_.get(findUser, 'email')) return util.sendLambdaResponse(401, undefined, callback, startDuration)
     user.updateAuthenticator();
     resolve();
   }))
   .then(() => userDao.updateAuthenticator(user))
   .then(() => util.sendLambdaResponse(200, {
     authenticator: user.authenticator
-  }, callback))
+  }, callback, startDuration))
   .catch(err => {
     console.log(err)
-    return util.sendLambdaResponse(500, undefined, callback);
+    return util.sendLambdaResponse(500, undefined, callback, startDuration);
   })
 }

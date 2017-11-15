@@ -72,7 +72,7 @@ functions:
     events:
       - http:
           path: /v1/occurrence/list
-          method: post
+          method: get
           integration: aws_proxy
           cors: true
 

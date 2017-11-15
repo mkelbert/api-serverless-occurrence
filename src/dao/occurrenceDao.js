@@ -3,11 +3,11 @@ import DB from '../models/DB'
 export default {
   register(occurrence){
     return new Promise((resolve, reject) => {
-      if(!occurrence.code) return reject(new Error('#ERROR_OCCURRENCEDAO_REGISTER_CODE_NOTFOUND'));
-      if(!occurrence.email) return reject(new Error('#ERROR_OCCURRENCEDAO_REGISTER_EMAIL_NOTFOUND'));
-      if(!occurrence.latitude) return reject(new Error('#ERROR_OCCURRENCEDAO_REGISTER_LATITUDE_NOTFOUND'));
-      if(!occurrence.longitude) return reject(new Error('#ERROR_OCCURRENCEDAO_REGISTER_LONGITUDE_NOTFOUND'));
-      if(!occurrence.description) return reject(new Error('#ERROR_OCCURRENCEDAO_REGISTER_DESCRIPTION_NOTFOUND'));
+      if(!occurrence.code) return reject(new Error('#CODE_NOTFOUND'));
+      if(!occurrence.email) return reject(new Error('#EMAIL_NOTFOUND'));
+      if(!occurrence.latitude) return reject(new Error('#LATITUDE_NOTFOUND'));
+      if(!occurrence.longitude) return reject(new Error('#LONGITUDE_NOTFOUND'));
+      if(!occurrence.description) return reject(new Error('#DESCRIPTION_NOTFOUND'));
 
       let params = {
         TableName: 'Occurrence',
@@ -21,7 +21,7 @@ export default {
       }
 
       DB.start().put(params, (err, data) => {
-        if(err) return reject(new Error('#ERROR_OCCURRENCEDAO_REGISTER'));
+        if(err) return reject(new Error('#ERROR_REGISTER'));
         return resolve();
       });
     });
@@ -29,7 +29,7 @@ export default {
 
   delete(occurrence) {
     return new Promise((resolve, reject) => {
-      if(!occurrence.code) return reject(new Error('#ERROR_OCCURRENCEDAO_DELETE_CODE_NOTFOUND'));
+      if(!occurrence.code) return reject(new Error('#CODE_NOTFOUND'));
 
       let params = {
         TableName: 'Occurrence',
@@ -41,7 +41,7 @@ export default {
       DB.start().delete(params, (err, data) => {
         if(err) {
           console.log(err)
-          return reject(new Error('#ERROR_OCCURRENCEDAO_DELETE'))
+          return reject(new Error('#ERROR_DELETE'))
         };
         return resolve();
       });
@@ -50,7 +50,7 @@ export default {
 
   findByCode(occurrence) {
     return new Promise((resolve, reject) => {
-      if(!occurrence.code) return reject(new Error('#ERROR_OCCURRENCEDAO_FINDBYCODE_CODE_NOTFOUND'));
+      if(!occurrence.code) return reject(new Error('#CODE_NOTFOUND'));
 
       let params = {
         TableName: 'Occurrence',
@@ -62,7 +62,7 @@ export default {
       DB.start().get(params, (err, data) => {
         if(err) {
           console.log(err)
-          return reject(new Error('#ERROR_OCCURRENCEDAO_FINDBYCODE'))
+          return reject(new Error('#OCCURRENCEDAO_FINDBYCODE'))
         };
         if(data.Item) return resolve(data.Item)
         return resolve({});
@@ -72,7 +72,7 @@ export default {
 
   list(listType) {
     return new Promise((resolve, reject) => {
-      if(!listType) return reject(new Error('#ERROR_OCCURRENCEDAO_LIST_LISTTYPE_NOTFOUND'));
+      if(!listType) return reject(new Error('#LISTTYPE_NOTFOUND'));
 
       let params = {
         TableName: 'Occurrence'

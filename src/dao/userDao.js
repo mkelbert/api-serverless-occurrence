@@ -4,9 +4,9 @@ import util from '../util/util'
 export default {
   register(user, authenticator){
     return new Promise((resolve, reject) => {
-      if(!user.email) return reject(new Error('#ERROR_USERDAO_REGISTER_EMAIL_NOTFOUND'));
-      if(!user.password) return reject(new Error('#ERROR_USERDAO_REGISTER_PASSWORD_NOTFOUND'));
-      if(!user.authenticator) return reject(new Error('#ERROR_USERDAO_REGISTER_AUTHENTICATOR_NOTFOUND'));
+      if(!user.email) return reject(new Error('#EMAIL_NOTFOUND'));
+      if(!user.password) return reject(new Error('#PASSWORD_NOTFOUND'));
+      if(!user.authenticator) return reject(new Error('#AUTH_NOTFOUND'));
 
       let params = {
         TableName: 'User',
@@ -18,7 +18,7 @@ export default {
       }
 
       DB.start().put(params, (err, data) => {
-        if(err) return reject(new Error('#ERROR_USERDAO_REGISTER'));
+        if(err) return reject(new Error('#ERROR_REGISTER'));
         return resolve();
       });
     });
@@ -26,7 +26,7 @@ export default {
 
   findByEmail(user) {
     return new Promise((resolve, reject) => {
-      if(!user.email) return reject(new Error('#ERROR_USERDAO_FINDBYEMAIL_EMAIL_NOTFOUND'));
+      if(!user.email) return reject(new Error('#EMAIL_NOTFOUND'));
 
       let params = {
         TableName: 'User',
@@ -38,7 +38,7 @@ export default {
       DB.start().get(params, (err, data) => {
         if(err) {
           console.log(err)
-          return reject(new Error('#ERROR_USERDAO_FINDBYEMAIL'))
+          return reject(new Error('#ERROR_FINDBYEMAIL'))
         };
         if(data.Item) return resolve(data.Item)
         return resolve({});
@@ -48,8 +48,8 @@ export default {
 
   findByAuthenticate(user){
     return new Promise((resolve, reject) => {
-      if(!user.email) return reject(new Error('#ERROR_USERDAO_FINDBYAUTHENTICATE_EMAIL_NOTFOUND'));
-      if(!user.password) return reject(new Error('#ERROR_USERDAO_FINDBYAUTHENTICATE_PASSWORD_NOTFOUND'));
+      if(!user.email) return reject(new Error('#EMAIL_NOTFOUND'));
+      if(!user.password) return reject(new Error('#PASSWORD_NOTFOUND'));
 
       let params = {
         TableName: 'User',
@@ -64,7 +64,7 @@ export default {
       DB.start().query(params, (err, data) => {
         if(err) {
           console.log(err)
-          return reject(new Error('#ERROR_USERDAO_FINDBYAUTHENTICATE'))
+          return reject(new Error('#ERROR_FINDBYAUTH'))
         };
         if(data.Items && data.Items[0]) return resolve(data.Items[0])
         return resolve({});
@@ -74,7 +74,7 @@ export default {
 
   findByAuthenticator(user){
     return new Promise((resolve, reject) => {
-      if(!user.authenticator) return reject(new Error('#ERROR_USERDAO_FINDBYAUTHENTICATOR_AUTHENTICATOR_NOTFOUND'));
+      if(!user.authenticator) return reject(new Error('#AUTH_NOTFOUND'));
 
       let params = {
         TableName: 'User',
@@ -87,7 +87,7 @@ export default {
       DB.start().scan(params, (err, data) => {
         if(err) {
           console.log(err)
-          return reject(new Error('#ERROR_USERDAO_FINDBYAUTHENTICATOR'))
+          return reject(new Error('#USERDAO_FINDBYAUTH'))
         };
         if(data.Items && data.Items[0]) return resolve(data.Items[0])
         return resolve({});
@@ -97,8 +97,8 @@ export default {
 
   updateAuthenticator(user) {
     return new Promise((resolve, reject) => {
-      if(!user.email) return reject(new Error('#ERROR_USERDAO_UPDATEAUTHENTICATOR_EMAIL_NOTFOUND'));
-      if(!user.authenticator) return reject(new Error('#ERROR_USERDAO_UPDATEAUTHENTICATOR_AUTHENTICATOR_NOTFOUND'));
+      if(!user.email) return reject(new Error('#EMAIL_NOTFOUND'));
+      if(!user.authenticator) return reject(new Error('#AUTH_NOTFOUND'));
 
       let params = {
         TableName: 'User',
@@ -114,7 +114,7 @@ export default {
       DB.start().update(params, (err, data) => {
         if(err) {
           console.log(err)
-          return reject(new Error('#ERROR_USERDAO_UPDATEAUTHENTICATOR'))
+          return reject(new Error('#USERDAO_UPDATEAUTH'))
         };
         return resolve({});
       });
